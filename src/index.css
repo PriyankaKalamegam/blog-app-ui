@@ -1,0 +1,56 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: light;
+}
+
+body {
+  @apply m-0 font-body text-slate-900 antialiased;
+  background:
+    radial-gradient(circle at 8% 12%, rgba(29, 140, 255, 0.25), transparent 30%),
+    radial-gradient(circle at 88% 0%, rgba(255, 107, 45, 0.22), transparent 28%),
+    linear-gradient(180deg, #f8fbff, #eef4ff);
+  min-height: 100vh;
+}
+
+.dark body {
+  color-scheme: dark;
+  @apply text-slate-100;
+  background:
+    radial-gradient(circle at 8% 12%, rgba(29, 140, 255, 0.2), transparent 28%),
+    radial-gradient(circle at 88% 0%, rgba(255, 107, 45, 0.16), transparent 24%),
+    linear-gradient(180deg, #060e1d, #081428 55%, #0a1730);
+}
+
+.page-transition {
+  animation: page-enter 220ms ease-out;
+}
+
+@keyframes page-enter {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.markdown-body pre {
+  @apply rounded-xl border border-slate-800/40;
+}
+
+.markdown-body code {
+  @apply font-mono;
+}
+
+.card-panel {
+  @apply rounded-2xl border border-white/40 bg-white/90 shadow-card backdrop-blur;
+}
+
+.dark .card-panel {
+  @apply border-slate-800 bg-slate-900/80;
+}
