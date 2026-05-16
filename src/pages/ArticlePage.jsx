@@ -33,6 +33,11 @@ export default function ArticlePage() {
   const headings = useMemo(() => extractHeadings(post?.content || ""), [post?.content]);
 
   const onLike = async () => {
+    if (!isAuthenticated) {
+      toast.error("Please log in to like posts");
+      return;
+    }
+
     try {
       const result = await platformApi.toggleLike(postId);
       setPost((prev) => ({
@@ -46,6 +51,11 @@ export default function ArticlePage() {
   };
 
   const onBookmark = async () => {
+    if (!isAuthenticated) {
+      toast.error("Please log in to save posts");
+      return;
+    }
+
     try {
       const result = await platformApi.toggleBookmark(postId);
       setPost((prev) => ({ ...prev, bookmarkedByCurrentUser: result.enabled }));
@@ -69,6 +79,7 @@ export default function ArticlePage() {
         text: comment.text.trim()
       };
       const newComment = await platformApi.addComment(postId, payload);
+      // Append locally so the newly posted comment appears immediately without a full article reload.
       setPost((prev) => ({ ...prev, comments: [...prev.comments, newComment] }));
       setComment({ author: "", text: "" });
       toast.success("Comment posted");

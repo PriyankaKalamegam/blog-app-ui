@@ -58,6 +58,12 @@ export default function AuthPage() {
 
   return (
     <section className="mx-auto max-w-lg card-panel p-6">
+      <div className="mb-5 rounded-xl border border-brand-200 bg-brand-50 p-3 text-sm text-brand-800 dark:border-brand-800 dark:bg-brand-950/40 dark:text-brand-200">
+        <p className="font-semibold">Demo logins</p>
+        <p>Admin: admin / Admin@123</p>
+        <p>User: priyanka / Priyanka@123</p>
+      </div>
+
       <div className="mb-5 flex gap-2 rounded-xl bg-slate-100 p-1 dark:bg-slate-800">
         <button
           type="button"

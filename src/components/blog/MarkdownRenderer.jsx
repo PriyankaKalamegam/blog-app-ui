@@ -42,11 +42,13 @@ export default function MarkdownRenderer({ content }) {
       p: ({ children }) => (
         <p className="mt-4 leading-7 text-slate-700 dark:text-slate-200">{children}</p>
       ),
-      code: ({ inline, className, children }) => {
-        const language = className?.replace("language-", "") || "javascript";
+      code: ({ className, children }) => {
+        // react-markdown v9 no longer guarantees an `inline` flag, so language/newline detection keeps snippets visible.
+        const languageMatch = /language-(\w+)/.exec(className || "");
         const codeText = String(children).replace(/\n$/, "");
+        const isInlineCode = !languageMatch && !codeText.includes("\n");
 
-        if (inline) {
+        if (isInlineCode) {
           return (
             <code className="rounded bg-slate-100 px-1.5 py-0.5 font-mono text-sm text-brand-700 dark:bg-slate-800 dark:text-brand-300">
               {children}
@@ -63,7 +65,7 @@ export default function MarkdownRenderer({ content }) {
             >
               <Copy size={12} /> Copy
             </button>
-            <SyntaxHighlighter language={language} style={oneDark} customStyle={{ margin: 0, borderRadius: 12 }}>
+            <SyntaxHighlighter language={languageMatch?.[1] || "text"} style={oneDark} customStyle={{ margin: 0, borderRadius: 12 }}>
               {codeText}
             </SyntaxHighlighter>
           </div>
