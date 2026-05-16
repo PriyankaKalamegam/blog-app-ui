@@ -13,6 +13,7 @@ export default function ProfilePage() {
   const [repos, setRepos] = useState([]);
 
   useEffect(() => {
+    // Start with platform profile data, then optionally enrich the page with public GitHub details.
     platformApi
       .getPublicProfile(username)
       .then((data) => {
@@ -26,14 +27,14 @@ export default function ProfilePage() {
           .then((response) => response.json())
           .then(setGithub)
           .catch(() => {
-            // optional
+            // GitHub data is optional; the core profile should still render if this request fails.
           });
 
         fetch(`https://api.github.com/users/${data.githubUsername}/repos?sort=updated&per_page=6`)
           .then((response) => response.json())
           .then((items) => setRepos(Array.isArray(items) ? items : []))
           .catch(() => {
-            // optional
+            // Repository cards are best-effort and should not block the platform profile.
           });
       })
       .catch((error) => toast.error(error.message));
@@ -43,6 +44,7 @@ export default function ProfilePage() {
     try {
       const result = await platformApi.toggleFollow(username);
       toast.success(result.message);
+      // Refresh counts after the toggle so follower/following totals stay accurate.
       const refreshed = await platformApi.getPublicProfile(username);
       setProfile(refreshed);
     } catch (error) {

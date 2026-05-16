@@ -23,6 +23,7 @@ export default function ArticlePage() {
 
   useEffect(() => {
     setLoading(true);
+    // Loading the article detail also brings comments, tags, and current user's like/bookmark state.
     platformApi
       .getPost(postId)
       .then(setPost)
@@ -40,6 +41,7 @@ export default function ArticlePage() {
 
     try {
       const result = await platformApi.toggleLike(postId);
+      // The like endpoint returns the canonical count, so the UI does not guess optimistic values.
       setPost((prev) => ({
         ...prev,
         likeCount: result.likeCount,
@@ -58,6 +60,7 @@ export default function ArticlePage() {
 
     try {
       const result = await platformApi.toggleBookmark(postId);
+      // Bookmark returns a generic toggle response with the new enabled state.
       setPost((prev) => ({ ...prev, bookmarkedByCurrentUser: result.enabled }));
       toast.success(result.message);
     } catch (error) {

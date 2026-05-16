@@ -11,6 +11,7 @@ export default function ResumePage() {
   const [resume, setResume] = useState(null);
 
   useEffect(() => {
+    // Resumes are public profile-owned resources addressed by username.
     platformApi
       .getResume(username)
       .then(setResume)

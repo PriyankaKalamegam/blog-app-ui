@@ -6,6 +6,7 @@ import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { oneDark } from "react-syntax-highlighter/dist/esm/styles/prism";
 
 function headingId(text) {
+  // Heading ids mirror the table-of-contents utility so anchor links point to rendered headings.
   return text
     .toLowerCase()
     .replace(/[^a-z0-9]+/g, "-")

@@ -7,6 +7,7 @@ export default function AdminPage() {
   const [overview, setOverview] = useState(null);
 
   useEffect(() => {
+    // AdminRoute already handles permissions; this page only needs to load the overview numbers.
     platformApi
       .getAdminOverview()
       .then(setOverview)
@@ -17,6 +18,7 @@ export default function AdminPage() {
     return <p className="text-slate-600 dark:text-slate-300">Loading admin metrics...</p>;
   }
 
+  // Map backend totals into a display-friendly list for the metric cards.
   const items = [
     { label: "Users", value: overview.users },
     { label: "Posts", value: overview.posts },

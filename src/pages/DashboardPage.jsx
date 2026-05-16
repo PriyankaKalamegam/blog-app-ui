@@ -10,6 +10,7 @@ export default function DashboardPage() {
   const [bookmarks, setBookmarks] = useState([]);
 
   useEffect(() => {
+    // Dashboard metrics and bookmarks are independent, so each section handles its own API result.
     platformApi
       .getDashboard()
       .then(setDashboard)
@@ -19,7 +20,7 @@ export default function DashboardPage() {
       .getBookmarks()
       .then(setBookmarks)
       .catch(() => {
-        // optional section
+        // Bookmarks are optional dashboard content; metrics can still render without them.
       });
   }, [toast]);
 
@@ -27,6 +28,7 @@ export default function DashboardPage() {
     return <p className="text-slate-600 dark:text-slate-300">Loading dashboard...</p>;
   }
 
+  // Format large counts once before rendering the cards.
   const stats = [
     { label: "Total Posts", value: compactNumber(dashboard.totalPosts) },
     { label: "Views", value: compactNumber(dashboard.totalViews) },

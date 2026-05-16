@@ -1,4 +1,5 @@
 export function extractHeadings(markdown = "") {
+  // Extract only h1-h3 headings for the compact article table of contents.
   return markdown
     .split("\n")
     .filter((line) => /^#{1,3}\s+/.test(line))

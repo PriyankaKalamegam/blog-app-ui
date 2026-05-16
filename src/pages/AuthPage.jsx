@@ -26,12 +26,14 @@ export default function AuthPage() {
   const [registerForm, setRegisterForm] = useState(initialRegister);
   const [submitting, setSubmitting] = useState(false);
 
+  // ProtectedRoute passes the original destination here so login can resume the interrupted action.
   const redirectTo = location.state?.redirectTo || "/dashboard";
 
   const onLogin = async (event) => {
     event.preventDefault();
     setSubmitting(true);
     try {
+      // AuthContext stores the token and user after the backend accepts the credentials.
       await login(loginForm);
       toast.success("Logged in");
       navigate(redirectTo, { replace: true });
@@ -46,6 +48,7 @@ export default function AuthPage() {
     event.preventDefault();
     setSubmitting(true);
     try {
+      // Registration logs the user in immediately with the token returned by the service.
       await register(registerForm);
       toast.success("Account created");
       navigate(redirectTo, { replace: true });

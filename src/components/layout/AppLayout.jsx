@@ -13,6 +13,7 @@ export default function AppLayout() {
 
   return (
     <div className="min-h-screen">
+      {/* The layout keeps navigation and auth controls consistent across every routed page. */}
       <header className="sticky top-0 z-40 border-b border-white/30 bg-white/70 backdrop-blur dark:border-slate-800 dark:bg-slate-950/70">
         <div className="mx-auto flex w-[min(1200px,calc(100vw-1.5rem))] items-center justify-between py-3">
           <div className="flex items-center gap-5">
@@ -36,6 +37,7 @@ export default function AppLayout() {
                 </NavLink>
               ))}
               {isAdmin && (
+                // Admin navigation is hidden unless the current JWT-backed user has ADMIN role.
                 <NavLink
                   to="/admin"
                   className={({ isActive }) =>
