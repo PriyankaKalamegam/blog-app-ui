@@ -1,5 +1,6 @@
 import { request } from "./client";
 
+// Central API adapter: pages call these methods instead of hard-coding fetch details.
 export const platformApi = {
   register: (payload) => request("/auth/register", { method: "POST", body: JSON.stringify(payload) }),
   login: (payload) => request("/auth/login", { method: "POST", body: JSON.stringify(payload) }),

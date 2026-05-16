@@ -9,6 +9,7 @@ export function AuthProvider({ children }) {
   const [ready, setReady] = useState(false);
 
   useEffect(() => {
+    // On page refresh, restore the session from localStorage and validate it with the backend.
     const token = getStoredToken();
     if (!token) {
       setReady(true);
@@ -19,6 +20,7 @@ export function AuthProvider({ children }) {
       .me()
       .then((data) => setUser(data))
       .catch(() => {
+        // A missing/expired token should not trap the user in a broken authenticated state.
         setStoredToken(null);
         setUser(null);
       })
@@ -27,6 +29,7 @@ export function AuthProvider({ children }) {
 
   const login = async (payload) => {
     const data = await platformApi.login(payload);
+    // Persist the JWT once and keep React state as the source of truth for the current render.
     setStoredToken(data.token);
     setUser(data.user);
     return data;
@@ -54,6 +57,7 @@ export function AuthProvider({ children }) {
       register,
       logout,
       refreshMe: async () => {
+        // Pages that edit profile data can call this to refresh nav labels/avatar after saving.
         const current = await platformApi.me();
         setUser(current);
         return current;

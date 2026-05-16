@@ -15,9 +15,11 @@ export default function FeedPage() {
   const [searchText, setSearchText] = useState("");
   const [selectedTag, setSelectedTag] = useState("");
 
+  // Debouncing keeps search responsive while avoiding an API request on every keystroke.
   const debouncedSearch = useDebouncedValue(searchText, 350);
 
   useEffect(() => {
+    // Tags are loaded once and reused as feed filters.
     platformApi
       .getTags()
       .then(setTags)
@@ -26,6 +28,7 @@ export default function FeedPage() {
 
   useEffect(() => {
     setLoading(true);
+    // Search and tag state drive the feed query; the API returns already-filtered posts.
     platformApi
       .getPosts({ search: debouncedSearch, tag: selectedTag })
       .then(setPosts)

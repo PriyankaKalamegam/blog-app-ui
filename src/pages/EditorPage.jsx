@@ -21,6 +21,7 @@ export default function EditorPage() {
   const navigate = useNavigate();
 
   const [form, setForm] = useState(() => {
+    // New articles recover a local draft; existing articles are loaded from the server below.
     if (!postId) {
       const saved = localStorage.getItem(DRAFT_KEY);
       return saved ? JSON.parse(saved) : initialForm;
@@ -33,6 +34,7 @@ export default function EditorPage() {
   useEffect(() => {
     if (!postId) return;
     setLoading(true);
+    // Editing starts by hydrating the form from the current post detail response.
     platformApi
       .getPost(postId)
       .then((post) => {
@@ -52,6 +54,7 @@ export default function EditorPage() {
   useEffect(() => {
     if (!postId) {
       const timer = setTimeout(() => {
+        // Autosave is intentionally local-only until the user chooses Create Post.
         localStorage.setItem(DRAFT_KEY, JSON.stringify(form));
       }, 800);
       return () => clearTimeout(timer);
@@ -60,6 +63,7 @@ export default function EditorPage() {
 
   const tagsArray = useMemo(
     () =>
+      // The API expects tags as an array; the editor keeps them as comma-separated text.
       form.tags
         .split(",")
         .map((tag) => tag.trim().toLowerCase())
@@ -84,6 +88,7 @@ export default function EditorPage() {
         status: form.status
       };
 
+      // Create and update share the same payload shape, then branch only on the route param.
       if (postId) {
         await platformApi.updatePost(postId, payload);
         toast.success("Post updated");

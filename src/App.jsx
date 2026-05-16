@@ -16,6 +16,7 @@ export default function App() {
   return (
     <Routes>
       <Route element={<AppLayout />}>
+        {/* Public routes are readable by guests; write/dashboard/admin routes are wrapped below. */}
         <Route path="/" element={<LandingPage />} />
         <Route path="/feed" element={<FeedPage />} />
         <Route path="/posts/:postId" element={<ArticlePage />} />
@@ -23,6 +24,7 @@ export default function App() {
         <Route path="/resume/:username" element={<ResumePage />} />
         <Route path="/auth" element={<AuthPage />} />
 
+        {/* ProtectedRoute redirects anonymous users to login and brings them back after success. */}
         <Route
           path="/editor"
           element={
@@ -47,6 +49,7 @@ export default function App() {
             </ProtectedRoute>
           }
         />
+        {/* AdminRoute adds the role check on top of the normal authenticated session check. */}
         <Route
           path="/admin"
           element={

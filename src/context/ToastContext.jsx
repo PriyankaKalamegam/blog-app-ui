@@ -9,6 +9,7 @@ export function ToastProvider({ children }) {
   const pushToast = (type, message) => {
     const id = crypto.randomUUID();
     setToasts((prev) => [...prev, { id, type, message }]);
+    // Toasts self-dismiss so callers only need to describe the message, not cleanup timing.
     setTimeout(() => {
       setToasts((prev) => prev.filter((toast) => toast.id !== id));
     }, 3200);

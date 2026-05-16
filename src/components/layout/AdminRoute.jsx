@@ -13,6 +13,7 @@ export default function AdminRoute({ children }) {
   }
 
   if (!isAdmin) {
+    // Authenticated non-admin users stay in the app but are sent away from admin-only screens.
     return <Navigate to="/dashboard" replace />;
   }
 

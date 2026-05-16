@@ -9,6 +9,7 @@ export async function request(path, options = {}) {
     ...(options.headers || {})
   };
 
+  // All authenticated API calls share the same token attachment path.
   if (token) {
     headers.Authorization = `Bearer ${token}`;
   }
@@ -22,9 +23,10 @@ export async function request(path, options = {}) {
     let message = `Request failed (${response.status})`;
     try {
       const body = await response.json();
+      // Backend errors use a common { message } shape from GlobalExceptionHandler.
       message = body.message || message;
     } catch {
-      // no-op
+      // Keep the generic HTTP status message if the response body is not JSON.
     }
     const error = new Error(message);
     error.status = response.status;

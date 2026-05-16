@@ -10,6 +10,7 @@ export default function ProtectedRoute({ children }) {
   }
 
   if (!isAuthenticated) {
+    // Preserve the attempted route so login can return the user to their original workflow.
     return <Navigate to="/auth" replace state={{ redirectTo: location.pathname }} />;
   }
 
